@@ -1,5 +1,6 @@
 import "./AboutMe.css";
 import Portfolio from "../Portfolio/Portfolio";
+import photo from "../../images/photo.jpg";
 
 function AboutMe() {
   return (
@@ -30,7 +31,7 @@ function AboutMe() {
               </a>
             </div>
           </div>
-          <img className="about-me__photo" src="#" alt="Фото студента" />
+          <img className="about-me__photo" src={photo} alt="Фото студента" />
         </div>
         <Portfolio />
       </div>
