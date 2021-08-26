@@ -1,5 +1,5 @@
-import React from 'react';
-import './Footer.css'
+import React from "react";
+import "./Footer.css";
 
 function Footer(props) {
   return (
@@ -25,21 +25,11 @@ function Footer(props) {
               <li className="footer__links-item">
                 <a
                   className="footer__link"
-                  href="https://github.com/tyumen-777"
+                  href="https://github.com/Droni90"
                   target="_blank"
                   rel="noreferrer"
                 >
                   GitHub
-                </a>
-              </li>
-              <li className="footer__links-item">
-                <a
-                  className="footer__link"
-                  href="https://www.linkedin.com/in/artemii-pudovkin-6a9368205/"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  LinkedIn
                 </a>
               </li>
             </ul>

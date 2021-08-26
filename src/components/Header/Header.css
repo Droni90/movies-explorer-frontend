@@ -32,10 +32,7 @@
   align-items: center;
   width: 76px;
   height: 32px;
-
-  margin: 21px 0;
-  padding: 0;
-
+  margin: 21px 0 21px 15px;
   border: none;
   border-radius: 3px;
   background-color: #3DDC84;

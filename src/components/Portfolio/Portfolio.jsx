@@ -1,5 +1,5 @@
-import React from 'react';
-import './Portfolio.css'
+import React from "react";
+import "./Portfolio.css";
 
 function Portfolio(props) {
   return (
@@ -9,7 +9,7 @@ function Portfolio(props) {
         <li className="portfolio__project">
           <a
             className="portfolio__link"
-            href="https://github.com/tyumen-777/how-to-learn"
+            href="https://github.com/Droni90/how-to-learn"
             target="_blank"
             rel="noreferrer"
           >
@@ -32,7 +32,7 @@ function Portfolio(props) {
         <li className="portfolio__project">
           <a
             className="portfolio__link"
-            href="https://github.com/tyumen-777/russian-travel"
+            href="https://github.com/Droni90/russian-travel"
             target="_blank"
             rel="noreferrer"
           >
@@ -55,7 +55,7 @@ function Portfolio(props) {
         <li className="portfolio__project">
           <a
             className="portfolio__link"
-            href="https://github.com/tyumen-777/react-mesto-api-full"
+            href="https://github.com/Droni90/mesto"
             target="_blank"
             rel="noreferrer"
           >
