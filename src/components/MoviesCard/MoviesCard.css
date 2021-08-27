@@ -12,16 +12,38 @@
 
 .card__icon {
   position: absolute;
-  right: 5px;
-  transition: linear .4s;
+  right: 0;
+  border: 2px solid #fff;
+  background-color: #202020;
+  border-radius: 50px;
   cursor: pointer;
+  width: 16px;
+  height: 16px;
 }
-
+.card__icon_added {
+  background-color: #2BE080;
+}
 .card:hover .card__icon {
   display: block;
 }
 
 .card__icon:hover {
+  transform: scale(1.2);
+}
+
+.card__icon-delete{
+  position: absolute;
+  right: 0;
+  border: none;
+  background-color: #202020;
+  cursor: pointer;
+  background-image: url('../../images/delete-card-icon.svg');
+  width: 16px;
+  height: 16px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.card__icon-delete:hover {
   transform: scale(1.2);
 }
 
