@@ -1,10 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Register.css";
 import { Link } from "react-router-dom";
 import logo from "../../images/logo.svg";
 import Form from "../Form/Form";
 
-function Register(props) {
+function Register({onRegister}) {
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
+  const handleEmail = (evt) => {
+    setEmail(evt.target.value)
+  }
+
+  const handlePassword = (evt) => {
+    setPassword(evt.target.value)
+  }
+
+  const handleName = (evt) => {
+    setName(evt.target.value)
+  }
+  const  handleSubmit = (evt) => {
+    evt.preventDefault();
+    onRegister(password, email, name)
+  }
   return (
     <section className="register">
       <div className="register__container">
@@ -19,6 +38,11 @@ function Register(props) {
             route: "/signin",
             linkText: "Войти",
           }}
+          handlerSubmit={handleSubmit}
+          handleEmail={handleEmail}
+          handlePassword={handlePassword}
+          email={email}
+          password={password}
         >
           <label htmlFor="name" className="form__label">
             Имя
@@ -27,8 +51,9 @@ function Register(props) {
             required
             id="name"
             className="form__input"
-            minLength="2"
             type="text"
+            value={name}
+            onChange={handleName}
           />
           <span className="form__input-error">Текст ошибки</span>
         </Form>
