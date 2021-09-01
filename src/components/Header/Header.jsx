@@ -4,9 +4,9 @@ import { Link, useLocation } from "react-router-dom";
 import logo from "../../images/logo.svg";
 import Navigation from "../Navigation/Navigation";
 
-function Header() {
+function Header({ loggedIn }) {
   const { pathname } = useLocation();
-  const text = `${pathname === "/" ? "Регистрация" : "Аккаунт"}`;
+  const text = `${pathname !== "/" || loggedIn ? "Аккаунт" : "Регистрация"}`;
 
   const [activeBurger, setActiveBurger] = React.useState(false);
 
@@ -15,100 +15,109 @@ function Header() {
   }
 
   return (
-    <header className={pathname === "/" ? "header" : "header_dark"}>
-      <div className="header__container">
-        <div className="header__wrapper">
-          <Link to="/">
-            <img className="header__logo" src={logo} alt="Логотип" />
-          </Link>
-          {pathname === "/" ? "" : <Navigation />}
-        </div>
-        <div
-          className={`header__wrapper ${
-            pathname === "/" ? "" : "header__wrapper_burger"
-          }`}
-        >
-          <Link
-            className="header__sign-text"
-            to={`${pathname === "/" ? "/signup" : "/profile"}`}
-          >
-            {text}
-          </Link>
-          {pathname === "/" ? (
-            <Link to="/signin" className="header__btn-signin" type="button">
-              Войти
-            </Link>
-          ) : (
-            <button className="header__btn-account" type="button" />
-          )}
-        </div>
-        {pathname === "/" ? (
-          ""
-        ) : (
-          <>
-            <div
-              className={`header__burger ${
-                activeBurger ? "header__burger_active" : ""
-              }`}
-              onClick={handleActiveBurger}
-            >
-              <div className="header__burger-line" />
-              <div className="header__burger-line" />
-              <div className="header__burger-line" />
+    <>
+      {pathname !== "/signin" && pathname !== "/signup" ? (
+        <header className={pathname === "/" ? "header" : "header_dark"}>
+          <div className="header__container">
+            <div className="header__wrapper">
+              <Link to="/">
+                <img className="header__logo" src={logo} alt="Логотип" />
+              </Link>
+              {pathname !== "/" || loggedIn ? <Navigation /> : ""}
             </div>
             <div
-              className={`header__burger-menu-wrap ${
-                activeBurger ? "header__burger-menu-wrap_active" : ""
+              className={`header__wrapper ${
+                pathname !== "/" || loggedIn ? "header__wrapper_burger" : ""
               }`}
-              onClick={handleActiveBurger}
             >
-              <nav className="header__burger-nav">
-                <ul className="header__burger-list">
-                  <li className="header__burger-item">
-                    <Link className="header__burger-link" to="/">
-                      Главная
-                    </Link>
-                  </li>
-                  <li className="header__burger-item">
-                    <Link className="header__burger-link" to="/movies">
-                      Фильмы
-                    </Link>
-                  </li>
-                  <li className="header__burger-item">
-                    <Link className="header__burger-link" to="/saved-movies">
-                      Сохранённые фильмы
-                    </Link>
-                  </li>
-                </ul>
-              </nav>
-              <div
-                className={`header__wrapper header__wrapper_burger-menu ${
-                  pathname === "/" ? "header__wrapper_burger" : ""
-                }`}
+              <Link
+                className="header__sign-text"
+                to={`${pathname !== "/" || loggedIn ? "/profile" : "/signup"}`}
               >
-                <Link
-                  className="header__sign-text"
-                  to={`${pathname === "/" ? "/signup" : "/profile"}`}
-                >
-                  {text}
+                {text}
+              </Link>
+              {pathname !== "/" || loggedIn ? (
+                <button className="header__btn-account" type="button" />
+              ) : (
+                <Link to="/signin" className="header__btn-signin" type="button">
+                  Войти
                 </Link>
-                {pathname === "/" ? (
-                  <Link
-                    to="/signin"
-                    className="header__btn-signin"
-                    type="button"
-                  >
-                    Войти
-                  </Link>
-                ) : (
-                  <button className="header__btn-account" type="button" />
-                )}
-              </div>
+              )}
             </div>
-          </>
-        )}
-      </div>
-    </header>
+            {pathname !== "/" || loggedIn ? (
+              <>
+                <div
+                  className={`header__burger ${
+                    activeBurger ? "header__burger_active" : ""
+                  }`}
+                  onClick={handleActiveBurger}
+                >
+                  <div className="header__burger-line" />
+                  <div className="header__burger-line" />
+                  <div className="header__burger-line" />
+                </div>
+                <div
+                  className={`header__burger-menu-wrap ${
+                    activeBurger ? "header__burger-menu-wrap_active" : ""
+                  }`}
+                  onClick={handleActiveBurger}
+                >
+                  <nav className="header__burger-nav">
+                    <ul className="header__burger-list">
+                      <li className="header__burger-item">
+                        <Link className="header__burger-link" to="/">
+                          Главная
+                        </Link>
+                      </li>
+                      <li className="header__burger-item">
+                        <Link className="header__burger-link" to="/movies">
+                          Фильмы
+                        </Link>
+                      </li>
+                      <li className="header__burger-item">
+                        <Link
+                          className="header__burger-link"
+                          to="/saved-movies"
+                        >
+                          Сохранённые фильмы
+                        </Link>
+                      </li>
+                    </ul>
+                  </nav>
+                  <div
+                    className={`header__wrapper header__wrapper_burger-menu ${
+                      pathname === "/" ? "header__wrapper_burger" : ""
+                    }`}
+                  >
+                    <Link
+                      className="header__sign-text"
+                      to={`${pathname === "/" ? "/signup" : "/profile"}`}
+                    >
+                      {text}
+                    </Link>
+                    {pathname === "/" ? (
+                      <Link
+                        to="/signin"
+                        className="header__btn-signin"
+                        type="button"
+                      >
+                        Войти
+                      </Link>
+                    ) : (
+                      <button className="header__btn-account" type="button" />
+                    )}
+                  </div>
+                </div>
+              </>
+            ) : (
+              ""
+            )}
+          </div>
+        </header>
+      ) : (
+        ""
+      )}
+    </>
   );
 }
 

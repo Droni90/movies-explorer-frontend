@@ -61,10 +61,9 @@
 
 .profile__btn-edit {
   margin-top: 220px;
-
+  cursor: pointer;
   border: none;
   background-color: #202020;
-
   color: #fff;
   font-size: 13px;
   font-weight: 400;
@@ -74,7 +73,7 @@
 .profile__btn-logout {
   border: none;
   background-color: #202020;
-
+  cursor: pointer;
   color: #EE3465;
   font-size: 13px;
   font-weight: 500;
