@@ -3,7 +3,7 @@ import "./SearchForm.css";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import findIcon from "../../images/search-icon.svg";
 
-function SearchForm() {
+function SearchForm({ setIsFilmsShot, isFilmsShot }) {
   return (
     <section className="search">
       <div className="search__container">
@@ -13,7 +13,11 @@ function SearchForm() {
             <input placeholder="Фильм" className="search__input" required />
             <button type="submit" className="search__submit" />
           </div>
-          <FilterCheckbox filterText="Короткометражки" />
+          <FilterCheckbox
+            filterText="Короткометражки"
+            setIsFilmsShot={setIsFilmsShot}
+            isFilmsShot={isFilmsShot}
+          />
         </form>
       </div>
     </section>

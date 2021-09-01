@@ -21,7 +21,7 @@ const App = () => {
   const jwt = localStorage.getItem("jwt");
   const [currentUser, setCurrentUser] = useState({});
   const [movies, setMovies] = useState([]);
-  const [filtredMovies, setFiltredMovies] = useState([]);
+  const [filteredMovies, setFilteredMovies] = useState([]);
   const [windowSize, setWindowSize] = useState(window.innerWidth);
 
   useEffect(() => {
@@ -52,7 +52,7 @@ const App = () => {
   //Рендеринг фильмов
   useEffect(() => {
     const newMovies = movies.slice(0, moviesCount().count);
-    setFiltredMovies(newMovies);
+    setFilteredMovies(newMovies);
   }, [movies, windowSize]);
 
   function debounce(fn, ms) {
@@ -81,8 +81,8 @@ const App = () => {
     if (windowSize >= 320) return { count: 5, more: 2 };
   }
   const onMoreButtonClick = () => {
-    setFiltredMovies(
-      movies.slice(0, (filtredMovies.length += moviesCount().more))
+    setFilteredMovies(
+      movies.slice(0, (filteredMovies.length += moviesCount().more))
     );
   };
   // Конец Рендеринг фильмов
@@ -136,14 +136,14 @@ const App = () => {
             path="/movies"
             loggedIn={loggedIn}
             component={Movies}
-            movies={filtredMovies}
+            movies={filteredMovies}
             onMoreButtonClick={onMoreButtonClick}
           />
           <ProtectedRoute
             path="/saved-movies"
             loggedIn={loggedIn}
             component={Movies}
-            movies={filtredMovies}
+            movies={filteredMovies}
             onMoreButtonClick={onMoreButtonClick}
           />
           <ProtectedRoute
