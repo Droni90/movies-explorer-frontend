@@ -6,10 +6,11 @@ function FilterCheckbox({ filterText, setIsFilmsShot, isFilmsShot }) {
     <div className="filter-checkbox">
       <label className="filter-checkbox__label">
         <input
-          type="checkbox"
+          type="radio"
           className="filter-checkbox__input"
-          value={isFilmsShot}
+          checked={isFilmsShot}
           onClick={setIsFilmsShot}
+          onChange={() => {}}
         />
         <span className="filter-checkbox__round" />
       </label>

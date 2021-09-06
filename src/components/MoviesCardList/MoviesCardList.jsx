@@ -2,7 +2,7 @@ import React from "react";
 import "./MoviesCardList.css";
 import MoviesCard from "../MoviesCard/MoviesCard";
 
-function MoviesCardList({ movies, onMoreButtonClick }) {
+function MoviesCardList({ movies, onMoreButtonClick, searchValue }) {
   return (
     <section className="movies">
       <p className="movies__not-found">Ничего не найдено</p>

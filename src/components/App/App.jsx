@@ -48,7 +48,7 @@ const App = () => {
         .catch((e) => console.log(e));
     }
   }, [loggedIn]);
-
+  console.log(movies);
   //Рендеринг фильмов
   useEffect(() => {
     const newMovies = movies.slice(0, moviesCount().count);
