@@ -8,7 +8,6 @@ function Movies({ movies, onMoreButtonClick }) {
   const [isFilmsShot, setIsFilmsShot] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [filteredFilms, setFilteredFilms] = useState([]);
-  console.log(movies);
   const handleShotFilmsFilter = () => {
     setIsFilmsShot(!isFilmsShot);
   };
@@ -18,19 +17,11 @@ function Movies({ movies, onMoreButtonClick }) {
 
   useEffect(() => {
     const newFilms = movies.filter((movie) => {
-      const RU = movie.nameRU
-        .split(" ")
-        .filter((word) =>
-          word.toLowerCase().startsWith(searchValue.toLowerCase())
-        );
-      const EN = movie.nameEN
-        .split(" ")
-        .filter((word) =>
-          word.toLowerCase().startsWith(searchValue.toLowerCase())
-        );
-      return RU.length || EN.length;
+      return (
+        movie.nameRU?.toLowerCase().includes(searchValue.toLowerCase()) ||
+        movie.nameEN?.toLowerCase().includes(searchValue.toLowerCase())
+      );
     });
-    console.log(newFilms);
     setFilteredFilms(newFilms);
   }, [searchValue]);
 
@@ -48,6 +39,7 @@ function Movies({ movies, onMoreButtonClick }) {
           movies={filteredFilms}
           onMoreButtonClick={onMoreButtonClick}
           searchValue={searchValue}
+          isFilmsShot={isFilmsShot}
         />
       )}
     </div>
