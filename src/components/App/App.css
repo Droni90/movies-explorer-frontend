@@ -1,5 +1,8 @@
-@import url('../../vendor/fonts/fonts.css');
+@import url("../../vendor/fonts/fonts.css");
 
 .page {
-  font-family: 'Inter', 'Arial', 'Helvetica', sans-serif;
+  font-family: "Inter", "Arial", "Helvetica", sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }

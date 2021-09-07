@@ -2,9 +2,10 @@ import React from "react";
 import "./Form.css";
 import { Link } from "react-router-dom";
 
-function Form({ submitText, children }) {
+function Form({ submitText, handlerSubmit, handleEmail, handlePassword, email, password, children }) {
+  console.log(password)
   return (
-    <form className="form">
+    <form className="form" onSubmit={handlerSubmit}>
       {children}
       <label htmlFor="email" className="form__label">
         E-mail
@@ -13,8 +14,9 @@ function Form({ submitText, children }) {
         required
         id="email"
         className="form__input"
-        minLength="2"
         type="email"
+        onChange={handleEmail}
+        value={email}
       />
       <span className="form__input-error">Текст ошибки</span>
       <label htmlFor="password" className="form__label">
@@ -24,8 +26,9 @@ function Form({ submitText, children }) {
         required
         id="password"
         className="form__input form__input_password"
-        minLength="2"
         type="password"
+        onChange={handlePassword}
+        value={password}
       />
       <span className="form__input-error"> Текст ошибки</span>
       <button className="form__button" type="submit">

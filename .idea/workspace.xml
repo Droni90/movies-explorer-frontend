@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="94a4a19c-f17d-4f59-836d-468a39180dc3" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="94a4a19c-f17d-4f59-836d-468a39180dc3" name="Default Changelist" comment="" />
     <list id="b158bdb0-bf0d-4b5c-92b3-23b2a7a9120c" name="Revert &quot;start&quot;" comment="Revert &quot;start&quot;&#10;&#10;This reverts commit 3e766376" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,7 +35,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="TODO_SCOPE" value="All Places" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../manyhands-customer-ui" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -70,6 +68,8 @@
       <workItem from="1629991187135" duration="539000" />
       <workItem from="1629991734835" duration="727000" />
       <workItem from="1630065846951" duration="124000" />
+      <workItem from="1630068586750" duration="20000" />
+      <workItem from="1630493838280" duration="59000" />
     </task>
     <servers />
   </component>
