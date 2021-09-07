@@ -40,10 +40,9 @@ const App = () => {
 
   useEffect(() => {
     if (loggedIn) {
-      Promise.all([mainApi.getUserInfo(), getMovies()])
-        .then(([userData, moviesData]) => {
+      Promise.all([mainApi.getUserInfo()])
+        .then(([userData]) => {
           setCurrentUser(userData.data);
-          setMovies(moviesData);
         })
         .catch((e) => console.log(e));
     }
@@ -79,10 +78,8 @@ const App = () => {
     if (windowSize >= 768) return { count: 8, more: 2 };
     if (windowSize >= 320) return { count: 5, more: 2 };
   }
-  const onMoreButtonClick = () => {
-    setFilteredMovies(
-      movies.slice(0, (filteredMovies.length += moviesCount().more))
-    );
+  const onMoreButtonClick = (moves, filteredMoves) => {
+    return moves.slice(0, (filteredMoves.length += moviesCount().more));
   };
   // Конец Рендеринг фильмов
 
@@ -113,7 +110,6 @@ const App = () => {
     setLoggedIn(false);
     history.push("/signin");
   };
-
   //обработчик информации о пользователе
   const handleUpdateUser = (userInfo) => {
     mainApi
@@ -135,8 +131,9 @@ const App = () => {
             path="/movies"
             loggedIn={loggedIn}
             component={Movies}
-            movies={movies}
             onMoreButtonClick={onMoreButtonClick}
+            moviesCount={moviesCount}
+            windowSize={windowSize}
           />
           <ProtectedRoute
             path="/saved-movies"
