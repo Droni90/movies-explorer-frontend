@@ -21,6 +21,12 @@ class Api {
     return fetch(`${this._baseUrl}/users/me`, this._options)
       .then(this._checkResponse)
   }
+
+  getCards(token) {
+    this._updateToken();
+    return fetch(`${this._url}/movies`, this._options)
+    .then(this._response);
+  }
   //отправка инфо
   patchProfileInfo(inputsValue) {
     const newOptions = {
@@ -32,13 +38,13 @@ class Api {
       .then(this._checkResponse)
   }
   // Отправляет информацию о пользователе на сервер
-  patchAddCard(inputsValue) {
+  patchCard(inputsValue) {
     const newOptions = {
       ...this._options,
       body: JSON.stringify(inputsValue),
       method:'POST',
     }
-    return fetch(`${this._baseUrl}/cards`, newOptions)
+    return fetch(`${this._baseUrl}/movies`, newOptions)
       .then(this._checkResponse)
   }
   //Удаляем карту
@@ -47,33 +53,19 @@ class Api {
       ...this._options,
       method:'DELETE',
     }
-    return fetch(`${this._baseUrl}/cards/${cardId}`, newOptions)
+    return fetch(`${this._baseUrl}/movies/${cardId}`, newOptions)
       .then(this._checkResponse)
   }
-  //Ставим лайк
-  changeLikeCardStatus(cardId, isLiked) {
-    const putOptions = {
-      ...this._options,
-      method:'PUT',
-    }
-    const delOptions = {
+  //удаляем лайк
+  deleteLike(cardId) {
+    const newOptions = {
       ...this._options,
       method:'DELETE',
     }
-    return fetch(`${this._baseUrl}/cards/${cardId}/likes`, isLiked ? delOptions : putOptions)
+    return fetch(`${this._baseUrl}/cards/${cardId}/likes`, newOptions)
       .then(this._checkResponse)
   }
 
-  //Обновляем аватар
-  refreshAvatar(inputsValue) {
-    const newOptions = {
-      ...this._options,
-      body: JSON.stringify(inputsValue),
-      method: 'PATCH',
-    }
-    return fetch(`${this._baseUrl}/users/me/avatar`, newOptions)
-      .then(this._checkResponse)
-  }
 }
 
 export default new Api({
