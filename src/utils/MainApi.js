@@ -37,7 +37,7 @@ class Api {
     return fetch(`${this._baseUrl}/users/me`, newOptions)
       .then(this._checkResponse)
   }
-  // Отправляет информацию о пользователе на сервер
+
   patchCard(inputsValue) {
     const newOptions = {
       ...this._options,
