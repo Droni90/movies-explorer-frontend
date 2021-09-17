@@ -3,9 +3,13 @@ import "./SearchForm.css";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import findIcon from "../../images/search-icon.svg";
 
-function SearchForm({ setIsFilmsShot, isFilmsShot, handleSearchSubmit }) {
+function SearchForm({
+  handleShotMoviesFilter,
+  isFilmsShot,
+  handleSearchSubmit,
+}) {
   const [searchValue, setSearchValue] = useState("");
-  const handleSearch = (evt) => [setSearchValue(evt.target.value)];
+  const handleSearch = (evt) => setSearchValue(evt.target.value);
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
@@ -28,8 +32,7 @@ function SearchForm({ setIsFilmsShot, isFilmsShot, handleSearchSubmit }) {
             <button type="submit" className="search__submit" />
           </div>
           <FilterCheckbox
-            filterText="Короткометражки"
-            setIsFilmsShot={setIsFilmsShot}
+            handleShotMoviesFilter={handleShotMoviesFilter}
             isFilmsShot={isFilmsShot}
           />
         </form>

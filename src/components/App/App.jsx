@@ -12,17 +12,21 @@ import NotFound from "../NotFound/NotFound";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 import * as auth from "../../utils/authApi";
 import mainApi from "../../utils/MainApi";
-import { getMovies } from "../../utils/MoviesApi";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
+import { getMovies } from "../../utils/MoviesApi";
 
 const App = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const history = useHistory();
   const jwt = localStorage.getItem("jwt");
   const [currentUser, setCurrentUser] = useState({});
-  const [movies, setMovies] = useState([]);
+  const [savedMovies, setSavedMovies] = useState([]);
   const [filteredMovies, setFilteredMovies] = useState([]);
   const [windowSize, setWindowSize] = useState(window.innerWidth);
+  const [loadError, setLoadError] = useState("");
+  const [allMovies, setAllMovies] = useState([]);
+  const [searchValue, setSearchValue] = useState("");
+  const [isFilmShot, setIsFilmShot] = useState(false);
 
   useEffect(() => {
     if (jwt) {
@@ -40,18 +44,75 @@ const App = () => {
 
   useEffect(() => {
     if (loggedIn) {
-      Promise.all([mainApi.getUserInfo()])
-        .then(([userData]) => {
+      Promise.all([mainApi.getUserInfo(), mainApi.getMovies()])
+        .then(([userData, moviesData]) => {
           setCurrentUser(userData.data);
+          setSavedMovies(moviesData.data);
         })
         .catch((e) => console.log(e));
     }
   }, [loggedIn]);
   //Рендеринг фильмов
-  useEffect(() => {
-    const newMovies = movies.slice(0, moviesCount().count);
-    setFilteredMovies(newMovies);
-  }, [movies, windowSize]);
+
+  const handleSearchSubmit = (value) => {
+    setSearchValue(value);
+    getMovies()
+      .then((data) => {
+        setAllMovies(data);
+      })
+      .catch(() => {
+        setLoadError(
+          "Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз"
+        );
+      });
+  };
+
+  const onLogin = (password, email) => {
+    auth
+      .authorize(password, email)
+      .then((data) => {
+        if (data.token) {
+          localStorage.setItem("jwt", data.token);
+          setLoggedIn(true);
+          history.push("/movies");
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const onRegister = (password, email, name) => {
+    auth
+      .register(password, email, name)
+      .then(() => {
+        onLogin(password, email);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const handleSignOut = () => {
+    localStorage.removeItem("jwt");
+    setLoggedIn(false);
+    history.push("/signin");
+  };
+
+  //обработчик информации о пользователе
+  const handleUpdateUser = (userInfo) => {
+    mainApi
+      .patchProfileInfo(userInfo)
+      .then((data) => {
+        setCurrentUser(data.data);
+      })
+      .catch((e) => console.log(e));
+  };
+
+  const handleSaveMovie = (movie) => {
+    mainApi
+      .saveMovie(movie)
+      .then((data) => {
+        setSavedMovies(data.data);
+      })
+      .catch((e) => console.log(e));
+  };
 
   function debounce(fn, ms) {
     let timer;
@@ -81,44 +142,13 @@ const App = () => {
   const onMoreButtonClick = (moves, filteredMoves) => {
     return moves.slice(0, (filteredMoves.length += moviesCount().more));
   };
+
   // Конец Рендеринг фильмов
+  useEffect(() => {
+    const newMovies = allMovies.slice(0, moviesCount().count);
+    setFilteredMovies(newMovies);
+  }, [allMovies, windowSize]);
 
-  const onLogin = (password, email) => {
-    auth
-      .authorize(password, email)
-      .then((data) => {
-        if (data.token) {
-          localStorage.setItem("jwt", data.token);
-          setLoggedIn(true);
-          history.push("/movies");
-        }
-      })
-      .catch((err) => console.log(err));
-  };
-
-  const onRegister = (password, email, name) => {
-    auth
-      .register(password, email, name)
-      .then(() => {
-        onLogin(password, email);
-      })
-      .catch((err) => console.log(err));
-  };
-
-  const handleSignOut = () => {
-    localStorage.removeItem("jwt");
-    setLoggedIn(false);
-    history.push("/signin");
-  };
-  //обработчик информации о пользователе
-  const handleUpdateUser = (userInfo) => {
-    mainApi
-      .patchProfileInfo(userInfo)
-      .then((data) => {
-        setCurrentUser(data.data);
-      })
-      .catch((e) => console.log(e));
-  };
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
@@ -132,8 +162,9 @@ const App = () => {
             loggedIn={loggedIn}
             component={Movies}
             onMoreButtonClick={onMoreButtonClick}
-            moviesCount={moviesCount}
-            windowSize={windowSize}
+            allMovies={allMovies}
+            handleSearchSubmit={handleSearchSubmit}
+            loadError={loadError}
           />
           <ProtectedRoute
             path="/saved-movies"
@@ -141,6 +172,9 @@ const App = () => {
             component={Movies}
             movies={filteredMovies}
             onMoreButtonClick={onMoreButtonClick}
+            searchValue={searchValue}
+            handleSearchSubmit={handleSearchSubmit}
+            loadError={loadError}
           />
           <ProtectedRoute
             path="/profile"
