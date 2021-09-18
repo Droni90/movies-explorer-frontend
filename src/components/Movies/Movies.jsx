@@ -9,6 +9,9 @@ function Movies({
   handleSearchSubmit,
   handleShotMoviesFilter,
   isFilmShot,
+  filteredMovies,
+  onMoreButtonClick,
+  handleSaveMovie
 }) {
   return (
     <div className="movies">
@@ -17,7 +20,15 @@ function Movies({
         handleShotMoviesFilter={handleShotMoviesFilter}
         isFilmShot={isFilmShot}
       />
-      {!searchValue ? <Preloader /> : <MoviesCardList />}
+        {
+        !searchValue ?
+        <Preloader /> :
+        <MoviesCardList
+        filteredMovies={filteredMovies}
+        onMoreButtonClick={onMoreButtonClick}
+        handleSaveMovie={handleSaveMovie}
+      />
+      }
     </div>
   );
 }

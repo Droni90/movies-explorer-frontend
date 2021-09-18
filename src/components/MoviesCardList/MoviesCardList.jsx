@@ -4,10 +4,11 @@ import MoviesCard from "../MoviesCard/MoviesCard";
 
 function MoviesCardList({
   filteredMovies,
-  handleMoreButton,
+  onMoreButtonClick,
   isFilmsShot,
   loadError,
   isMoreHidden,
+  handleSaveMovie
 }) {
   return (
     <section className="movies">
@@ -19,18 +20,18 @@ function MoviesCardList({
         <ul className="movies__list">
           {!isFilmsShot
             ? filteredMovies.map((movie) => (
-                <MoviesCard movie={movie} key={movie.id} />
+                <MoviesCard movie={movie} key={movie.id} handleSaveMovie={handleSaveMovie}/>
               ))
             : filteredMovies
                 .filter((movie) => movie.duration < 80)
-                .map((movie) => <MoviesCard movie={movie} key={movie.id} />)}
+                .map((movie) => <MoviesCard movie={movie} key={movie.id} handleSaveMovie={handleSaveMovie} />)}
         </ul>
       )}
       {isMoreHidden ? null : (
         <button
           className="movies__button"
           type="button"
-          onClick={handleMoreButton}
+          onClick={onMoreButtonClick}
         >
           Ещё
         </button>

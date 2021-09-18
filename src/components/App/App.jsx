@@ -27,6 +27,7 @@ const App = () => {
   const [allMovies, setAllMovies] = useState([]);
   const [searchValue, setSearchValue] = useState("");
   const [isFilmShot, setIsFilmShot] = useState(false);
+  const [findedMovies, setFindedMovies] = useState([])
 
   useEffect(() => {
     if (jwt) {
@@ -59,6 +60,7 @@ const App = () => {
     getMovies()
       .then((data) => {
         setAllMovies(data);
+        localStorage.setItem("allMovies", JSON.stringify(data))
       })
       .catch(() => {
         setLoadError(
@@ -139,15 +141,18 @@ const App = () => {
     if (windowSize >= 768) return { count: 8, more: 2 };
     if (windowSize >= 320) return { count: 5, more: 2 };
   }
-  const onMoreButtonClick = (moves, filteredMoves) => {
-    return moves.slice(0, (filteredMoves.length += moviesCount().more));
+  const onMoreButtonClick = () => {
+    const more = findedMovies.slice(0, (filteredMovies.length += moviesCount().more));
+    setFilteredMovies(more)
   };
 
   // Конец Рендеринг фильмов
   useEffect(() => {
-    const newMovies = allMovies.slice(0, moviesCount().count);
+    const finded= allMovies.filter(movie => movie.nameRU.includes(searchValue))
+    setFindedMovies(finded)
+    const newMovies = finded.slice(0, moviesCount().count);
     setFilteredMovies(newMovies);
-  }, [allMovies, windowSize]);
+  }, [allMovies, windowSize, searchValue]);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -162,9 +167,11 @@ const App = () => {
             loggedIn={loggedIn}
             component={Movies}
             onMoreButtonClick={onMoreButtonClick}
-            allMovies={allMovies}
+            filteredMovies={filteredMovies}
             handleSearchSubmit={handleSearchSubmit}
             loadError={loadError}
+            searchValue={searchValue}
+            handleSaveMovie={handleSaveMovie}
           />
           <ProtectedRoute
             path="/saved-movies"

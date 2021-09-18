@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./MoviesCard.css";
 import { useLocation } from "react-router-dom";
 import testCard from "../../images/test-card.png";
 import moviesIconCard from "../../images/added-card-icon.svg";
 import moviesSavedCardIcon from "../../images/delete-card-icon.svg";
 import saveCardIcon from "../../images/save-card-icon.svg";
+import CurrentUserContext from "../../contexts/CurrentUserContext";
 
-function MoviesCard({ movie }) {
+function MoviesCard({ movie, handleSaveMovie }) {
   const {
     country,
     created_at,
@@ -24,10 +25,25 @@ function MoviesCard({ movie }) {
   const url = "https://api.nomoreparties.co";
   const { pathname } = useLocation();
   const [isMovieAdded, setIsMovieAdded] = useState(false);
+  const currentUser = useContext(CurrentUserContext)
 
-  const movieButtonHandler = () => {
+
+  const saveMovieButton = () => {
+    handleSaveMovie({
+        country: movie.country,
+        year: movie.year,
+        description: movie.description,
+        nameRU: movie.nameRU,
+        nameEN: movie.nameEN,
+        director: movie.director,
+        duration: movie.duration,
+        image: `https://api.nomoreparties.co${movie.image.url}`,
+        trailer: movie.trailerLink,
+        thumbnail: `https://api.nomoreparties.co${movie.image.url}`,
+        movieId: movie.id + '',
+      })
     setIsMovieAdded(!isMovieAdded);
-  };
+  }
   const time = () => {
     const minutes = duration % 60;
     const houre = Math.floor(duration / 60);
@@ -48,7 +64,7 @@ function MoviesCard({ movie }) {
         {pathname === "/movies" ? (
           <button
             className={`card__icon ${isMovieAdded ? "card__icon_added" : ""}`}
-            onClick={movieButtonHandler}
+            onClick={saveMovieButton}
           />
         ) : (
           <button className="card__icon-delete" />
