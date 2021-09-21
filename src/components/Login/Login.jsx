@@ -1,25 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Login.css";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import logo from "../../images/logo.svg";
 import Form from "../Form/Form";
+import useFormWithValidation from "../../hooks/useFormValidation";
 
-function Login({onLogin}) {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+function Login({ onLogin, setError, setIsFormSent, isFormSent, isError }) {
+  const history = useHistory();
+  const { values, handleChange, errors, isValid } = useFormWithValidation({
+    email: "",
+    password: "",
+  });
 
-  const handleEmail = (evt) => {
-    setEmail(evt.target.value)
-  }
+  useEffect(() => {
+    setError(false);
+  }, [history]);
 
-  const handlePassword = (evt) => {
-    setPassword(evt.target.value)
-  }
-
-  const  handleSubmit = (evt) => {
+  const handleSubmit = (evt) => {
     evt.preventDefault();
-    onLogin(password, email )
-  }
+    setIsFormSent(true);
+    const { email, password } = values;
+    onLogin(password, email);
+  };
   return (
     <section className="login">
       <div className="login__container">
@@ -33,12 +35,15 @@ function Login({onLogin}) {
             promt: "Ещё не зарегистрированы?",
             route: "/signup",
             linkText: "Регистрация",
+            errorText: "При попытке авторизации произошла ошибка.",
           }}
-          handleEmail={handleEmail}
-          handlePassword={handlePassword}
+          handleChange={handleChange}
+          errors={errors}
           handlerSubmit={handleSubmit}
-          email={email}
-          password={password}
+          values={values}
+          isFormSent={isFormSent}
+          isValid={isValid}
+          isError={isError}
         />
       </div>
     </section>

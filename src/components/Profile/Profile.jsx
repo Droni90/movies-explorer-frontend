@@ -1,21 +1,28 @@
-import React, { useContext, useState } from "react";
+import { useContext } from "react";
 import "./Profile.css";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
+import useFormWithValidation from "../../hooks/useFormValidation";
 
-function Profile({ handleSignOut, handleUpdateUser }) {
+function Profile({
+  handleSignOut,
+  handleUpdateUser,
+  isSuccess,
+  isError,
+  setSuccess,
+  setError,
+}) {
   const { email, name } = useContext(CurrentUserContext);
-  const [nameValue, setNameValue] = useState("");
-  const [emailValue, setEmailValue] = useState("");
+  const { values, handleChange, errors } = useFormWithValidation({
+    name,
+    email,
+  });
 
-  const handleNameInput = (evt) => {
-    setNameValue(evt.target.value);
-  };
-  const handleEmailInput = (evt) => {
-    setEmailValue(evt.target.value);
-  };
   const onEditSubmit = (evt) => {
     evt.preventDefault();
-    handleUpdateUser({ email: emailValue, name: nameValue });
+    setSuccess("");
+    setError("");
+    const { email, name } = values;
+    handleUpdateUser({ email, name });
   };
   return (
     <section className="profile">
@@ -28,9 +35,15 @@ function Profile({ handleSignOut, handleUpdateUser }) {
               placeholder={name}
               className="profile__input"
               id="name"
-              onChange={handleNameInput}
-              value={nameValue}
+              name="name"
+              onChange={handleChange}
+              value={values.name}
+              autoFocus
+              autoComplete="off"
               type="text"
+              minLength="2"
+              maxLength="40"
+              required
             />
           </label>
           <label className="profile__label" htmlFor="email">
@@ -40,10 +53,25 @@ function Profile({ handleSignOut, handleUpdateUser }) {
               type="email"
               className="profile__input"
               id="email"
-              onChange={handleEmailInput}
-              value={emailValue}
+              name="email"
+              onChange={handleChange}
+              value={values.email}
+              autoComplete="off"
+              minLength="2"
+              maxLength="40"
+              required
             />
           </label>
+          {isSuccess ? (
+            <span className="profile-error">
+              Ваш профиль успешно обновился!
+            </span>
+          ) : null}
+          {isError ? (
+            <span className="profile-error">
+              При обновлении профиля произошла ошибка.
+            </span>
+          ) : null}
           <button className="profile__btn-edit" type="submit">
             Редактировать
           </button>

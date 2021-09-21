@@ -36,7 +36,6 @@ const App = () => {
   const [currentUser, setCurrentUser] = useState({});
   const [savedMovies, setSavedMovies] = useState([]);
   const [isOnlyCheckedSearch, setIsOnlyCheckedSearch] = useState(false);
-  const [isMenuPopupOpen, setIsMenuPopupOpen] = useState(false);
   const [foundSavedMovies, setFoundSavedMovies] = useState([]);
   const [savedMoviesId, setSavedMoviesId] = useState([]);
   const [isNotFound, setIsNotFound] = useState(false);
@@ -109,13 +108,6 @@ const App = () => {
     setMovies([]);
     setCurrentUser({ email: "", name: "" });
     history.push("/signin");
-  };
-
-  const openMenu = () => {
-    setIsMenuPopupOpen(true);
-  };
-  const closeMenu = () => {
-    setIsMenuPopupOpen(false);
   };
 
   const onLogin = (password, email) => {
@@ -299,6 +291,7 @@ const App = () => {
             isSuccess={isUpdateSuccessful}
             isFormSent={isFormSent}
             setIsFormSent={setIsFormSent}
+            setSuccess={setIsUpdateSuccessful}
           />
           <Route exact path="/signin">
             {!loggedIn ? (

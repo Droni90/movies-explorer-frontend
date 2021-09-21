@@ -1,28 +1,33 @@
 import React, { useState } from "react";
 import "./Register.css";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import logo from "../../images/logo.svg";
 import Form from "../Form/Form";
+import useFormWithValidation from "../../hooks/useFormValidation";
 
-function Register({onRegister}) {
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+function Register({
+  onRegister,
+  setError,
+  setIsFormSent,
+  isError,
+  isFormSent,
+}) {
+  const history = useHistory();
+  const { values, handleChange, errors, isValid } = useFormWithValidation({
+    email: "",
+    password: "",
+    name: "",
+  });
 
-  const handleEmail = (evt) => {
-    setEmail(evt.target.value)
-  }
+  React.useEffect(() => {
+    setError(false);
+  }, [history]);
 
-  const handlePassword = (evt) => {
-    setPassword(evt.target.value)
-  }
-
-  const handleName = (evt) => {
-    setName(evt.target.value)
-  }
-  const  handleSubmit = (evt) => {
-    evt.preventDefault();
-    onRegister(password, email, name)
+  function handleSubmit(e) {
+    setIsFormSent(true);
+    e.preventDefault();
+    const { email, password, name } = values;
+    onRegister(password, email, name);
   }
   return (
     <section className="register">
@@ -37,12 +42,15 @@ function Register({onRegister}) {
             promt: "Уже зарегистрированы?",
             route: "/signin",
             linkText: "Войти",
+            errorText: "При попытке регистрации произошла ошибка.",
           }}
+          handleChange={handleChange}
+          errors={errors}
           handlerSubmit={handleSubmit}
-          handleEmail={handleEmail}
-          handlePassword={handlePassword}
-          email={email}
-          password={password}
+          values={values}
+          isFormSent={isFormSent}
+          isValid={isValid}
+          isError={isError}
         >
           <label htmlFor="name" className="form__label">
             Имя
@@ -50,12 +58,19 @@ function Register({onRegister}) {
           <input
             required
             id="name"
+            value={values.name}
+            onChange={handleChange}
+            name="name"
+            autoFocus
+            autoComplete="off"
             className="form__input"
             type="text"
-            value={name}
-            onChange={handleName}
+            minLength="2"
+            maxLength="40"
           />
-          <span className="form__input-error">Текст ошибки</span>
+          {errors.name ? (
+            <span className="form__input-error"> {errors.name}</span>
+          ) : null}
         </Form>
       </div>
     </section>

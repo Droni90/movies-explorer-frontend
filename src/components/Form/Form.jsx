@@ -2,8 +2,17 @@ import React from "react";
 import "./Form.css";
 import { Link } from "react-router-dom";
 
-function Form({ submitText, handlerSubmit, handleEmail, handlePassword, email, password, children }) {
-  console.log(password)
+function Form({
+  submitText,
+  handlerSubmit,
+  handleChange,
+  isValid,
+  values,
+  children,
+  isFormSent,
+  isError,
+  errors,
+}) {
   return (
     <form className="form" onSubmit={handlerSubmit}>
       {children}
@@ -15,10 +24,17 @@ function Form({ submitText, handlerSubmit, handleEmail, handlePassword, email, p
         id="email"
         className="form__input"
         type="email"
-        onChange={handleEmail}
-        value={email}
+        onChange={handleChange}
+        name="email"
+        value={values.email}
+        autoFocus
+        autoComplete="off"
+        minLength="2"
+        maxLength="40"
       />
-      <span className="form__input-error">Текст ошибки</span>
+      {errors.email ? (
+        <span className="form__input-error">{errors.email}</span>
+      ) : null}
       <label htmlFor="password" className="form__label">
         Пароль
       </label>
@@ -27,11 +43,25 @@ function Form({ submitText, handlerSubmit, handleEmail, handlePassword, email, p
         id="password"
         className="form__input form__input_password"
         type="password"
-        onChange={handlePassword}
-        value={password}
+        onChange={handleChange}
+        name="password"
+        value={values.password}
+        autoComplete="off"
       />
-      <span className="form__input-error"> Текст ошибки</span>
-      <button className="form__button" type="submit">
+      {errors.password ? (
+        <span className="form__input-error"> {errors.password}</span>
+      ) : null}
+      {isError ? (
+        <span className="form__submit-error" id="login-error">
+          {isError.message ? isError.message : submitText.errorText}
+        </span>
+      ) : null}
+      <button
+        className={`form__button ${
+          isValid && !isFormSent ? "" : "form__button_disabled"
+        }`}
+        type={isValid && !isFormSent ? "submit" : "button"}
+      >
         {submitText.buttonText}
       </button>
       <p className="form__promt">
