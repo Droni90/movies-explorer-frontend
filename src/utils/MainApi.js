@@ -25,7 +25,9 @@ class Api {
 
   getMovies() {
     this._updateToken();
-    return fetch(`${this._url}/movies`, this._options).then(this._response);
+    return fetch(`${this._baseUrl}/movies`, this._options).then(
+      this._checkResponse
+    );
   }
   //отправка инфо
   patchProfileInfo(inputsValue) {
@@ -42,8 +44,24 @@ class Api {
   saveMovie(movie) {
     const newOptions = {
       ...this._options,
-      body: JSON.stringify(movie),
       method: "POST",
+      body: JSON.stringify({
+        country: movie.country || "null",
+        director: movie.director || "null",
+        duration: movie.duration,
+        year: movie.year,
+        description: movie.description,
+        image: `https://api.nomoreparties.co${movie.image.url}`,
+        trailer: movie.trailerLink
+          ? movie.trailerLink.startsWith("https")
+            ? movie.trailerLink
+            : "https://www.youtube.com"
+          : "https://www.youtube.com",
+        thumbnail: `https://api.nomoreparties.co${movie.image.formats.thumbnail.url}`,
+        movieId: movie.id.toString(),
+        nameRU: movie.nameRU,
+        nameEN: movie.nameEN || "null",
+      }),
     };
     return fetch(`${this._baseUrl}/movies`, newOptions).then(
       this._checkResponse

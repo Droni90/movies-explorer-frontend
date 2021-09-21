@@ -1,77 +1,72 @@
-import React, { useContext, useEffect, useState } from "react";
 import "./MoviesCard.css";
-import { useLocation } from "react-router-dom";
-import testCard from "../../images/test-card.png";
-import moviesIconCard from "../../images/added-card-icon.svg";
-import moviesSavedCardIcon from "../../images/delete-card-icon.svg";
-import saveCardIcon from "../../images/save-card-icon.svg";
-import CurrentUserContext from "../../contexts/CurrentUserContext";
+import { HourDuration } from "../../utils/constatns";
 
-function MoviesCard({ movie, handleSaveMovie }) {
-  const {
-    country,
-    created_at,
-    description,
-    director,
-    duration,
-    id,
-    image,
-    nameEN,
-    nameRU,
-    trailerLink,
-    updated_at,
-    year,
-  } = movie;
-  const url = "https://api.nomoreparties.co";
-  const { pathname } = useLocation();
-  const [isMovieAdded, setIsMovieAdded] = useState(false);
-  const currentUser = useContext(CurrentUserContext)
-
-
-  const saveMovieButton = () => {
-    handleSaveMovie({
-        country: movie.country,
-        year: movie.year,
-        description: movie.description,
-        nameRU: movie.nameRU,
-        nameEN: movie.nameEN,
-        director: movie.director,
-        duration: movie.duration,
-        image: `https://api.nomoreparties.co${movie.image.url}`,
-        trailer: movie.trailerLink,
-        thumbnail: `https://api.nomoreparties.co${movie.image.url}`,
-        movieId: movie.id + '',
-      })
-    setIsMovieAdded(!isMovieAdded);
-  }
-  const time = () => {
-    const minutes = duration % 60;
-    const houre = Math.floor(duration / 60);
-    return `${houre > 0 ? houre + "ч" : ""}${minutes > 0 ? minutes + "м" : ""}`;
+const MoviesCard = ({
+  movie,
+  savedMoviesId,
+  isSaved,
+  deleteMovie,
+  handleSaveMovie,
+}) => {
+  const handleIsLike = (card, savedCardsId) => {
+    if (card.id) {
+      return savedCardsId.some((el) => el === card.id);
+    }
   };
+
+  let isLiked = handleIsLike(movie, savedMoviesId);
+  const cardLikeButtonClassName = `card__icon ${
+    isLiked ? "card__icon_added" : ""
+  }`;
+  const hours = Math.trunc(movie.duration / HourDuration);
+  const minutes = movie.duration % HourDuration;
+  const time = `${hours > 0 ? hours + "ч " : ""}${
+    minutes > 0 ? minutes + "м" : ""
+  }`;
+  const trailer = `${isSaved ? movie.trailer : movie.trailerLink}`;
+
+  function handleSave() {
+    if (isSaved) {
+      deleteMovie(movie);
+    } else {
+      if (isLiked) {
+        deleteMovie(movie);
+      } else {
+        handleSaveMovie(movie);
+      }
+    }
+  }
   return (
     <li className="card">
       <div className="card__wrap">
-        <img
-          className="card__image"
-          src={`${url}${image.url}`}
-          alt={image.name}
-        />
+        <a
+          href={
+            trailer.startsWith("https") ? trailer : "https://www.youtube.com"
+          }
+          target="_blank"
+          rel="noreferrer"
+        >
+          <img
+            className="card__image"
+            src={
+              isSaved
+                ? movie.image
+                : `https://api.nomoreparties.co${movie.image.url}`
+            }
+            alt={movie.name}
+          />
+        </a>
       </div>
       <div className="card__description">
-        <p className="card__name">{nameRU}</p>
-        <p className="card__duration">{time()}</p>
-        {pathname === "/movies" ? (
-          <button
-            className={`card__icon ${isMovieAdded ? "card__icon_added" : ""}`}
-            onClick={saveMovieButton}
-          />
-        ) : (
-          <button className="card__icon-delete" />
-        )}
+        <p className="card__name">{movie.nameRU}</p>
+        <p className="card__duration">{time}</p>
+        <button
+          className={isSaved ? "card__icon-delete" : cardLikeButtonClassName}
+          onClick={handleSave}
+        />
       </div>
     </li>
   );
-}
+};
 
 export default MoviesCard;

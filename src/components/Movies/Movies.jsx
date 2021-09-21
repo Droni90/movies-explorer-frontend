@@ -4,33 +4,26 @@ import SearchForm from "../SearchForm/SearchForm";
 import Preloader from "../Preloader/Preloader";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 
-function Movies({
-  searchValue,
-  handleSearchSubmit,
-  handleShotMoviesFilter,
-  isFilmShot,
-  filteredMovies,
-  onMoreButtonClick,
-  handleSaveMovie
-}) {
+const Movies = (props) => {
   return (
-    <div className="movies">
+    <section className="movies">
       <SearchForm
-        handleSearchSubmit={handleSearchSubmit}
-        handleShotMoviesFilter={handleShotMoviesFilter}
-        isFilmShot={isFilmShot}
+        handleSubmit={props.handleSubmit}
+        handleChangeRadio={props.handleChange}
       />
-        {
-        !searchValue ?
-        <Preloader /> :
-        <MoviesCardList
-        filteredMovies={filteredMovies}
-        onMoreButtonClick={onMoreButtonClick}
-        handleSaveMovie={handleSaveMovie}
-      />
-      }
-    </div>
+      {props.isLoading ? <Preloader /> : null}
+      {props.isNotFound ? (
+        <p className="movies__found-error">Ничего не найдено</p>
+      ) : null}
+      {props.isError ? (
+        <p className="movies__error">
+          Во время запроса произошла ошибка. Возможно, проблема с соединением
+          или сервер недоступен. Подождите немного и попробуйте ещё раз
+        </p>
+      ) : null}
+      <MoviesCardList isSaved={false} {...props} />
+    </section>
   );
-}
+};
 
 export default Movies;
