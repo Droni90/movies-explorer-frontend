@@ -42,8 +42,8 @@ const App = () => {
   const [isUpdateSuccessful, setIsUpdateSuccessful] = useState(false);
   const [savedKeyWord, setSavedKeyWord] = useState("");
   const [isFormSent, setIsFormSent] = useState(false);
-  const [isShortSavedFilmChecked, setIsShortSavedFilmChecked] = useState(true);
-  const [isShortFilmChecked, setIsShortFilmChecked] = useState(true);
+  const [isShortSavedFilmChecked, setIsShortSavedFilmChecked] = useState(false);
+  const [isShortFilmChecked, setIsShortFilmChecked] = useState(false);
   const [movies, setMovies] = useState(
     localStorage.getItem("foundMovies")
       ? JSON.parse(localStorage.getItem("foundMovies"))

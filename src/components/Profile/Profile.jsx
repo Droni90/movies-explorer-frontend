@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./Profile.css";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 import useFormWithValidation from "../../hooks/useFormValidation";
@@ -12,10 +12,16 @@ function Profile({
   setError,
 }) {
   const { email, name } = useContext(CurrentUserContext);
-  const { values, handleChange, errors } = useFormWithValidation({
+  const { values, handleChange } = useFormWithValidation({
     name,
     email,
   });
+
+  const [hasChanges, setHasChanges] = useState(false);
+
+  useEffect(() => {
+    setHasChanges(!(values.name === name) || !(values.email === email));
+  }, [values.name, values.email, name, email]);
 
   const onEditSubmit = (evt) => {
     evt.preventDefault();
@@ -72,7 +78,11 @@ function Profile({
               При обновлении профиля произошла ошибка.
             </span>
           ) : null}
-          <button className="profile__btn-edit" type="submit">
+          <button
+            className="profile__btn-edit"
+            type="submit"
+            disabled={!hasChanges}
+          >
             Редактировать
           </button>
           <button
