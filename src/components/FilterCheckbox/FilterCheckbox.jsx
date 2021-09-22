@@ -5,7 +5,6 @@ const FilterCheckbox = ({ handleChangeRadio }) => {
   const checked = useRef();
   function handleChange() {
     handleChangeRadio(checked.current.checked);
-    console.log("S");
   }
   return (
     <div className="filter-checkbox">

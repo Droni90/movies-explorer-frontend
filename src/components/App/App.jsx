@@ -231,9 +231,8 @@ const App = () => {
     let movieId = savedMovies.filter(
       (f) => f.movieId == movie.id || f.data?.movieId == movie.id
     )[0];
-    console.log(movie, movieId, savedMovies);
     if (movieId) {
-      movieId = movieId._id;
+      movieId = movieId._id || movieId.data._id;
     }
     mainApi
       .removeMovie(movie.owner ? movie._id : movieId)
