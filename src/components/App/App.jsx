@@ -57,10 +57,12 @@ const App = () => {
         .then((res) => {
           if (res.data) {
             setLoggedIn(true);
-            history.push("/movies");
           }
         })
-        .catch((e) => console.log(e));
+        .catch((e) => {
+          history.push("/signin");
+          console.log(e);
+        });
     }
   }, []);
 
@@ -255,7 +257,7 @@ const App = () => {
           <ProtectedRoute
             exact
             path="/movies"
-            loggedIn={loggedIn}
+            loggedIn={jwt}
             component={Movies}
             movies={movies}
             savedMoviesId={savedMoviesId}
@@ -270,7 +272,7 @@ const App = () => {
           <ProtectedRoute
             exact
             path="/saved-movies"
-            loggedIn={loggedIn}
+            loggedIn={jwt}
             component={SavedMovies}
             movies={
               savedKeyWord || isOnlyCheckedSearch
@@ -285,7 +287,7 @@ const App = () => {
           />
           <ProtectedRoute
             path="/profile"
-            loggedIn={loggedIn}
+            loggedIn={jwt}
             component={Profile}
             handleSignOut={handleSignOut}
             handleUpdateUser={handleUpdateUser}
