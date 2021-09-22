@@ -47,7 +47,7 @@ const MoviesCardList = ({
       movies.slice(0, (filtredMovies.length += moviesCount().more))
     );
   };
-  console.log(movies.length, filtredMovies.length);
+
   return (
     <>
       <ul className="movies__list">

@@ -226,15 +226,18 @@ const App = () => {
       });
   };
   const deleteMovie = (movie) => {
-    let movieId = savedMovies.filter((f) => f.movieId === movie.id)[0];
+    let movieId = savedMovies.filter(
+      (f) => f.movieId == movie.id || f.data?.movieId == movie.id
+    )[0];
+    console.log(movie, movieId, savedMovies);
     if (movieId) {
       movieId = movieId._id;
     }
     mainApi
       .removeMovie(movie.owner ? movie._id : movieId)
       .then((c) => {
-        setSavedMovies(savedMovies.filter((film) => film._id !== c.data._id));
-        setSavedMoviesId(savedMoviesId.filter((id) => id !== c.data.movieId));
+        setSavedMovies(savedMovies.filter((film) => film._id != c.data._id));
+        setSavedMoviesId(savedMoviesId.filter((id) => id != c.data.movieId));
       })
       .catch((err) => {
         console.error(err);
