@@ -1,0 +1,11 @@
+.movies {
+  flex: 1;
+  max-width: 100%;
+}
+
+.movies__found-error {
+  color: #fff;
+}
+.movies__error {
+  color: #fff;
+}

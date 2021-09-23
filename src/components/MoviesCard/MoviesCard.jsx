@@ -1,41 +1,72 @@
-import React, { useState } from "react";
 import "./MoviesCard.css";
-import { useLocation } from "react-router-dom";
-import testCard from "../../images/test-card.png";
-import moviesIconCard from "../../images/added-card-icon.svg";
-import moviesSavedCardIcon from "../../images/delete-card-icon.svg";
-import saveCardIcon from "../../images/save-card-icon.svg";
+import { HourDuration } from "../../utils/constatns";
 
-function MoviesCard() {
-  const { pathname } = useLocation();
-  const [isMovieAdded , setIsMovieAdded] = useState(false)
-  // const isAdded = true;  // Поменять на false для проверки
+const MoviesCard = ({
+  movie,
+  savedMoviesId,
+  isSaved,
+  deleteMovie,
+  handleSaveMovie,
+}) => {
+  const handleIsLike = (card, savedCardsId) => {
+    if (card.id) {
+      return savedCardsId.some((el) => el === card.id);
+    }
+  };
 
-  const movieButtonHandler = () => {
-    setIsMovieAdded(!isMovieAdded)
+  let isLiked = handleIsLike(movie, savedMoviesId);
+  const cardLikeButtonClassName = `card__icon ${
+    isLiked ? "card__icon_added" : ""
+  }`;
+  const hours = Math.trunc(movie.duration / HourDuration);
+  const minutes = movie.duration % HourDuration;
+  const time = `${hours > 0 ? hours + "ч " : ""}${
+    minutes > 0 ? minutes + "м" : ""
+  }`;
+  const trailer = `${isSaved ? movie.trailer : movie.trailerLink}`;
+
+  function handleSave() {
+    if (isSaved) {
+      deleteMovie(movie);
+    } else {
+      if (isLiked) {
+        deleteMovie(movie);
+      } else {
+        handleSaveMovie(movie);
+      }
+    }
   }
-//  У меня было захардкоженное состояния для кнопки, вы возможно не заметили. Сейчас сделал динамично, надеюсь за ошибку не посчитате)
   return (
     <li className="card">
       <div className="card__wrap">
-        <img className="card__image" src={testCard} alt="Тестовая карточка" />
+        <a
+          href={
+            trailer.startsWith("https") ? trailer : "https://www.youtube.com"
+          }
+          target="_blank"
+          rel="noreferrer"
+        >
+          <img
+            className="card__image"
+            src={
+              isSaved
+                ? movie.image
+                : `https://api.nomoreparties.co${movie.image.url}`
+            }
+            alt={movie.name}
+          />
+        </a>
       </div>
       <div className="card__description">
-        <p className="card__name">33 слова о дизайне</p>
-        <p className="card__duration">1ч 17м</p>
-        {
-          pathname === "/movies" ?
-          <button
-            className={`card__icon ${isMovieAdded ? "card__icon_added" : ''}`}
-            onClick={movieButtonHandler}
-            />
-            :
-            <button className="card__icon-delete" />
-          }
-
+        <p className="card__name">{movie.nameRU}</p>
+        <p className="card__duration">{time}</p>
+        <button
+          className={isSaved ? "card__icon-delete" : cardLikeButtonClassName}
+          onClick={handleSave}
+        />
       </div>
     </li>
   );
-}
+};
 
 export default MoviesCard;

@@ -1,10 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Register.css";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import logo from "../../images/logo.svg";
 import Form from "../Form/Form";
+import useFormWithValidation from "../../hooks/useFormValidation";
 
-function Register(props) {
+function Register({
+  onRegister,
+  setError,
+  setIsFormSent,
+  isError,
+  isFormSent,
+}) {
+  const history = useHistory();
+  const { values, handleChange, errors, isValid } = useFormWithValidation({
+    email: "",
+    password: "",
+    name: "",
+  });
+
+  React.useEffect(() => {
+    setError(false);
+  }, [history]);
+
+  function handleSubmit(e) {
+    setIsFormSent(true);
+    e.preventDefault();
+    const { email, password, name } = values;
+    onRegister(password, email, name);
+  }
   return (
     <section className="register">
       <div className="register__container">
@@ -18,7 +42,15 @@ function Register(props) {
             promt: "Уже зарегистрированы?",
             route: "/signin",
             linkText: "Войти",
+            errorText: "При попытке регистрации произошла ошибка.",
           }}
+          handleChange={handleChange}
+          errors={errors}
+          handlerSubmit={handleSubmit}
+          values={values}
+          isFormSent={isFormSent}
+          isValid={isValid}
+          isError={isError}
         >
           <label htmlFor="name" className="form__label">
             Имя
@@ -26,11 +58,19 @@ function Register(props) {
           <input
             required
             id="name"
+            value={values.name}
+            onChange={handleChange}
+            name="name"
+            autoFocus
+            autoComplete="off"
             className="form__input"
-            minLength="2"
             type="text"
+            minLength="2"
+            maxLength="40"
           />
-          <span className="form__input-error">Текст ошибки</span>
+          {errors.name ? (
+            <span className="form__input-error"> {errors.name}</span>
+          ) : null}
         </Form>
       </div>
     </section>

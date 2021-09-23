@@ -1,8 +1,9 @@
 .header {
   margin: 0 auto;
   background-color: #073042;
+  width: 100%;
 }
-.header_dark{
+.header_dark {
   background-color: #202020;
 }
 
@@ -35,7 +36,7 @@
   margin: 21px 0 21px 15px;
   border: none;
   border-radius: 3px;
-  background-color: #3DDC84;
+  background-color: #3ddc84;
   color: #000;
   font-size: 12px;
   font-weight: 500;
@@ -62,7 +63,6 @@
   cursor: pointer;
   transition: linear 0.4s;
   transition-property: transform, border;
-
 }
 
 .header__btn-account:hover {
@@ -148,7 +148,6 @@
   visibility: visible;
   display: flex;
   flex-direction: column;
-
 }
 
 .header__burger-nav {
@@ -168,7 +167,6 @@
   list-style: none;
   margin: 0;
   padding: 0;
-
 }
 
 .header__burger-link {

@@ -7,7 +7,7 @@
 .form__label {
   align-self: flex-start;
   margin: 20px 0 10px;
-  color: #8B8B8B;
+  color: #8b8b8b;
   font-size: 10px;
   font-weight: 400;
   line-height: 12px;
@@ -30,12 +30,12 @@
   outline: none;
   border-bottom: solid 1px #424242;
 }
-.form__input_password{
-  color: #EE3465;
+.form__input_password {
+  color: #ee3465;
 }
 .form__input-error {
   display: none;
-  color: #EE3465;
+  color: #ee3465;
   font-size: 10px;
   font-weight: 400;
   line-height: 12px;
@@ -49,23 +49,35 @@
 
   border: none;
   border-radius: 3px;
-  background-color: #4285F4;
+  background-color: #4285f4;
   color: #fff;
   font-size: 14px;
   font-weight: 500;
   line-height: 17px;
   outline: none;
   cursor: pointer;
-  transition: linear .4s;
+  transition: linear 0.4s;
 }
 
 .form__button:hover {
   transform: scale(1.1);
 }
-
+.form__button_disabled {
+  background: #f8f8f8;
+  color: #c2c2c2;
+  color: #000;
+  cursor: default;
+  pointer-events: none;
+}
+.form__submit-error {
+  color: red;
+  font-size: 14px;
+  margin-top: 20px;
+  font-weight: normal;
+}
 .form__promt {
   margin: 0;
-  color: #8B8B8B;
+  color: #8b8b8b;
   font-size: 14px;
   font-weight: 400;
   line-height: 17px;
@@ -73,13 +85,13 @@
 
 .form__link {
   text-decoration: none;
-  color: #4285F4;
+  color: #4285f4;
   font-size: 14px;
   font-weight: 400;
   line-height: 17px;
-  transition: linear .4s;
+  transition: linear 0.4s;
 }
 
 .form__link:hover {
-  opacity: .5;
+  opacity: 0.5;
 }

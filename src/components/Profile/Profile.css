@@ -61,26 +61,32 @@
 
 .profile__btn-edit {
   margin-top: 220px;
-
+  cursor: pointer;
   border: none;
   background-color: #202020;
-
   color: #fff;
   font-size: 13px;
   font-weight: 400;
   line-height: 15px;
 }
+.profile__btn-edit:disabled {
+  color: #746c6c;
+}
 
 .profile__btn-logout {
   border: none;
   background-color: #202020;
-
-  color: #EE3465;
+  cursor: pointer;
+  color: #ee3465;
   font-size: 13px;
   font-weight: 500;
   line-height: 15px;
 }
-
+.profile-error {
+  color: red;
+  font-size: 14px;
+  margin-top: 20px;
+}
 @media screen and (max-width: 576px) {
   .profile__container {
     max-width: 270px;

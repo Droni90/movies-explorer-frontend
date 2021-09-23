@@ -1,16 +1,27 @@
-import React from 'react';
-import './FilterCheckbox.css'
+import { useRef } from "react";
+import "./FilterCheckbox.css";
 
-function FilterCheckbox({ filterText }) {
+const FilterCheckbox = ({ handleChangeRadio }) => {
+  const checked = useRef();
+  function handleChange() {
+    handleChangeRadio(checked.current.checked);
+  }
   return (
     <div className="filter-checkbox">
-      <label className="filter-checkbox__label">
-        <input type="checkbox" className="filter-checkbox__input" />
+      <label className="filter-checkbox__label" htmlFor="shortfilm">
+        <input
+          type="checkbox"
+          className="filter-checkbox__input"
+          ref={checked}
+          id="shortfilm"
+          onChange={handleChange}
+          defaultChecked={false}
+        />
         <span className="filter-checkbox__round" />
       </label>
-      <p className="filter-checkbox__text">{filterText}</p>
+      <p className="filter-checkbox__text">Короткометражки</p>
     </div>
   );
-}
+};
 
 export default FilterCheckbox;
